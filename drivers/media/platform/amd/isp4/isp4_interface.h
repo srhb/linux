@@ -28,6 +28,8 @@
 #define ISP4IF_META_INFO_BUF_SIZE ALIGN(sizeof(struct isp4fw_meta_info), 0x8000)
 #define ISP4IF_MAX_STREAM_BUF_COUNT 8
 
+#define ISP4IF_FW_LOG_RINGBUF_SIZE (2 * 1024 * 1024)
+
 #define ISP4IF_MAX_CMD_RESPONSE_BUF_SIZE (4 * 1024)
 
 #define GET_ISP4IF_REG_BASE(ispif) (((ispif))->mmio)
@@ -92,6 +94,7 @@ struct isp4_interface {
 	u32 aligned_rb_chunk_size;
 
 	/* ISP fw buffers */
+	struct isp4if_gpu_mem_info *fw_log_buf;
 	struct isp4if_gpu_mem_info *fw_cmd_resp_buf;
 	struct isp4if_gpu_mem_info *fw_mem_pool;
 	struct isp4if_gpu_mem_info *meta_info_buf[ISP4IF_MAX_STREAM_BUF_COUNT];

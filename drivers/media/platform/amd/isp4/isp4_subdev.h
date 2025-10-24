@@ -114,6 +114,11 @@ struct isp4_subdev {
 	void __iomem *mmio;
 	struct isp4_subdev_thread_param isp_resp_para[ISP4SD_MAX_FW_RESP_STREAM_NUM];
 	int irq[ISP4SD_MAX_FW_RESP_STREAM_NUM];
+#ifdef CONFIG_DEBUG_FS
+	struct dentry *debugfs_dir;
+	bool enable_fw_log;
+	char *fw_log_output;
+#endif
 };
 
 int isp4sd_init(struct isp4_subdev *isp_subdev, struct v4l2_device *v4l2_dev,
