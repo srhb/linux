@@ -155,7 +155,7 @@ static void isp4if_dealloc_fw_gpumem(struct isp4_interface *ispif)
 	isp4if_gpu_mem_free(ispif, &ispif->fw_cmd_resp_buf);
 
 	for (i = 0; i < ISP4IF_MAX_STREAM_BUF_COUNT; i++)
-		isp4if_gpu_mem_free(ispif, &ispif->metainfo_buf_pool[i]);
+		isp4if_gpu_mem_free(ispif, &ispif->meta_info_buf[i]);
 }
 
 static int isp4if_alloc_fw_gpumem(struct isp4_interface *ispif)
@@ -173,9 +173,9 @@ static int isp4if_alloc_fw_gpumem(struct isp4_interface *ispif)
 		goto error_no_memory;
 
 	for (i = 0; i < ISP4IF_MAX_STREAM_BUF_COUNT; i++) {
-		ispif->metainfo_buf_pool[i] =
+		ispif->meta_info_buf[i] =
 			isp4if_gpu_mem_alloc(ispif, ISP4IF_META_INFO_BUF_SIZE);
-		if (!ispif->metainfo_buf_pool[i])
+		if (!ispif->meta_info_buf[i])
 			goto error_no_memory;
 	}
 
