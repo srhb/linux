@@ -6,13 +6,14 @@
 #ifndef _ISP4_H_
 #define _ISP4_H_
 
-#include <media/v4l2-device.h>
-#include <media/videobuf2-memops.h>
+#include <drm/amd/isp.h>
+#include "isp4_subdev.h"
 
 #define ISP4_GET_ISP_REG_BASE(isp4sd) (((isp4sd))->mmio)
 
 struct isp4_device {
 	struct v4l2_device v4l2_dev;
+	struct isp4_subdev isp_subdev;
 	struct media_device mdev;
 	struct platform_device *pdev;
 };
