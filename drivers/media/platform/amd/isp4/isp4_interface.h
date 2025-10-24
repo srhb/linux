@@ -94,7 +94,7 @@ struct isp4_interface {
 	/* ISP fw buffers */
 	struct isp4if_gpu_mem_info *fw_cmd_resp_buf;
 	struct isp4if_gpu_mem_info *fw_mem_pool;
-	struct isp4if_gpu_mem_info *metainfo_buf_pool[ISP4IF_MAX_STREAM_BUF_COUNT];
+	struct isp4if_gpu_mem_info *meta_info_buf[ISP4IF_MAX_STREAM_BUF_COUNT];
 };
 
 static inline void isp4if_split_addr64(u64 addr, u32 *lo, u32 *hi)
