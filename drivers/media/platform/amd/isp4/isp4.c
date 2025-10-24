@@ -146,6 +146,16 @@ static int isp4_capture_probe(struct platform_device *pdev)
 		goto err_unreg_v4l2;
 	}
 
+	ret = media_create_pad_link(&isp_dev->isp_subdev.sdev.entity,
+				    0, &isp_dev->isp_subdev.isp_vdev.vdev.entity,
+				    0,
+				    MEDIA_LNK_FL_ENABLED |
+				    MEDIA_LNK_FL_IMMUTABLE);
+	if (ret) {
+		dev_err(dev, "fail to create pad link %d\n", ret);
+		goto err_isp4_deinit;
+	}
+
 	ret = media_device_register(&isp_dev->mdev);
 	if (ret) {
 		dev_err(dev, "fail to register media device %d\n", ret);
@@ -160,6 +170,7 @@ err_isp4_deinit:
 	isp4sd_deinit(&isp_dev->isp_subdev);
 err_unreg_v4l2:
 	v4l2_device_unregister(&isp_dev->v4l2_dev);
+	media_device_cleanup(&isp_dev->mdev);
 
 	return dev_err_probe(dev, ret, "isp probe fail\n");
 }
@@ -169,8 +180,9 @@ static void isp4_capture_remove(struct platform_device *pdev)
 	struct isp4_device *isp_dev = platform_get_drvdata(pdev);
 
 	media_device_unregister(&isp_dev->mdev);
-	v4l2_device_unregister(&isp_dev->v4l2_dev);
 	isp4sd_deinit(&isp_dev->isp_subdev);
+	v4l2_device_unregister(&isp_dev->v4l2_dev);
+	media_device_cleanup(&isp_dev->mdev);
 }
 
 static struct platform_driver isp4_capture_drv = {
