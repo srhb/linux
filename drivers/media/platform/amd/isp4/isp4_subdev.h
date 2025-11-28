@@ -116,6 +116,11 @@ struct isp4_subdev {
 	int irq[ISP4SD_MAX_FW_RESP_STREAM_NUM];
 	bool irq_enabled;
 	spinlock_t irq_lock;
+#ifdef CONFIG_DEBUG_FS
+	bool enable_fw_log;
+	struct dentry *debugfs_dir;
+	char *fw_log_output;
+#endif
 };
 
 int isp4sd_init(struct isp4_subdev *isp_subdev, struct v4l2_device *v4l2_dev,
